@@ -1,0 +1,22 @@
+# .github/workflows/reusable-workflow.yml
+on:
+  workflow_call:
+    inputs:
+      message:
+        required: true
+        type: string
+    outputs:
+      result:
+        value: ${{ jobs.print_message.outputs.outcome }}
+ 
+jobs:
+  print_message:
+    runs-on: ubuntu-latest
+    outputs:
+      outcome: ${{ steps.echo_step.outputs.echo_output }}
+    steps:
+      - name: Echo the message
+        id: echo_step
+        run: |
+          echo "Received message: ${{ inputs.message }}"
+          echo "echo_output=Success" >> "$GITHUB_OUTPUT"
